@@ -1,0 +1,2 @@
+INSERT INTO producto ( id, nombre, descripcion, valor, stock) VALUES (1, 'Netflix', 'Tarjeta de servicio netflix', 18000, 30);
+INSERT INTO producto ( id, nombre, descripcion, valor, stock) VALUES (2, 'Disney', 'Codigo de servicio disney hd', 15000, 10);
