@@ -3,6 +3,7 @@ package com.tienda.controllers;
 import com.tienda.domain.dtos.ProductoDto;
 import com.tienda.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,24 +22,31 @@ public class ProductController {
         return ResponseEntity.ok(this.productoService.getAllProducts());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoDto> getProducto(@PathVariable Long id){
+        return this.productoService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(()-> ResponseEntity.notFound().build());
+    }
+
     @PostMapping
-    public ProductoDto createProduct(@RequestBody ProductoDto product) {
-        return productoService.createProduct(product);
+    public ResponseEntity<ProductoDto> createProduct(@RequestBody ProductoDto product) {
+        return ResponseEntity.ok(productoService.createProduct(product));
     }
 
     @PutMapping("/{id}")
-    public ProductoDto updateProduct(@PathVariable Long id, @RequestBody ProductoDto productDetails) {
-        return productoService.updateProduct(id, productDetails);
+    public ResponseEntity<ProductoDto> updateProduct(@PathVariable Long id, @RequestBody ProductoDto productDetails) {
+        return ResponseEntity.ok(productoService.updateProduct(id, productDetails));
     }
 
     @PostMapping("/{id}/addStock")
-    public ProductoDto addStock(@PathVariable Long id, @RequestParam int additionalStock) {
-        return productoService.addStock(id, additionalStock);
+    public ResponseEntity<ProductoDto> addStock(@PathVariable Long id, @RequestParam int additionalStock) {
+        return new ResponseEntity<>(productoService.addStock(id, additionalStock), HttpStatus.OK);
     }
 
     @GetMapping("/available")
-    public List<ProductoDto> getAvailableProducts() {
-        return productoService.getAvailableProducts();
+    public ResponseEntity<List<ProductoDto>> getAvailableProducts() {
+        return new ResponseEntity<>(productoService.getAvailableProducts(), HttpStatus.OK);
     }
 
     @PostMapping("/purchase")
