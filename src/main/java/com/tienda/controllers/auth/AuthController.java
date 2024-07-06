@@ -1,5 +1,6 @@
 package com.tienda.controllers.auth;
 
+import com.tienda.domain.dtos.LoginDto;
 import com.tienda.domain.dtos.UserRequestDto;
 import com.tienda.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
-    public String login(){
-        return "login";
+    public ResponseEntity<?> login(@RequestBody LoginDto loginDto){
+        return ResponseEntity.ok(userService.login(loginDto));
     }
 
     @PostMapping("/register")

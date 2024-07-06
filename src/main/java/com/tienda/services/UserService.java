@@ -1,19 +1,22 @@
 package com.tienda.services;
 
+import com.tienda.domain.dtos.LoginDto;
 import com.tienda.domain.dtos.UserRequestDto;
 import com.tienda.domain.dtos.UserResponseDto;
 import com.tienda.domain.entities.UsuarioEntity;
 import com.tienda.domain.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
-    @Autowired
     private UsuarioRepository usuarioRepository;
 
     public UserResponseDto register(UserRequestDto userRequestDto) {
@@ -31,6 +34,18 @@ public class UserService {
         UserResponseDto respuesta = new UserResponseDto();
         respuesta.setUsername(usuarioGuardado.getUsername());
         respuesta.setRole(usuarioGuardado.getRole().name());
+        return respuesta;
+    }
+
+    public UserResponseDto login(LoginDto loginDto) {
+        UsuarioEntity usuario = this.usuarioRepository.findByUsername(loginDto.getUsername()).orElseThrow();
+        if (!passwordEncoder.matches(loginDto.getPassword(), usuario.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+        UserResponseDto respuesta = new UserResponseDto();
+        respuesta.setUsername(usuario.getUsername());
+        respuesta.setRole(usuario.getRole().name());
+
         return respuesta;
     }
 }
