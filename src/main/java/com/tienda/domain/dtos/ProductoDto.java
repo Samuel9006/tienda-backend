@@ -9,4 +9,5 @@ public class ProductoDto {
     private String descripcion;
     private double valor;
     private int stock;
+    private String imagenPath;
 }

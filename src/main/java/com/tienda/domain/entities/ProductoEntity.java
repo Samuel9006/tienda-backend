@@ -12,6 +12,7 @@ public class ProductoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    private String imagenPath;
     private String descripcion;
     private double valor;
     private int stock;
