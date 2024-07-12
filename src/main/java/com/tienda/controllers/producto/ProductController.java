@@ -51,7 +51,7 @@ public class ProductController {
     }
 
     @PostMapping("/purchase")
-    public void purchaseProducts(@RequestBody List<Long> productIds) {
-        productoService.purchaseProducts(productIds);
+    public void purchaseProducts(@RequestBody List<ProductoDto> productos) {
+        productoService.purchaseProducts(productos);
     }
 }

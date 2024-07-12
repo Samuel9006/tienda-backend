@@ -58,10 +58,10 @@ public class ProductoService {
         return this.productoMapper.productosToDtos(list);
     }
 
-    public void purchaseProducts(List<Long> idProductos) {
+    public void purchaseProducts(List<ProductoDto> listaProductos) {
         double totalValue = 0;
-        for (Long id : idProductos) {
-            ProductoEntity producto = productoRepository.findById(id).orElseThrow();
+        for (ProductoDto iter : listaProductos) {
+            ProductoEntity producto = productoRepository.findById(iter.getId()).orElseThrow();
             if (producto.getStock() > 0) {
                 producto.setStock(producto.getStock() - 1);
                 totalValue += producto.getValor();
