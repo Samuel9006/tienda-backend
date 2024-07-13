@@ -18,7 +18,12 @@ public class VentaEntity {
 
     private LocalDateTime fecha;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "venta_producto",
+            joinColumns = @JoinColumn(name = "venta_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
     private List<ProductoEntity> productos;
 
     private double total;
